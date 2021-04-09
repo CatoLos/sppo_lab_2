@@ -35,6 +35,9 @@ CppMethodUnit::CppMethodUnit(const std::string& name,
     MethodUnit(name, returnType, flags)
 {}
 
+CppMethodUnit::~CppMethodUnit()
+{}
+
 std::string CppMethodUnit::compile(unsigned int level) const
 {
     std::string result = generateShift(level);
@@ -73,8 +76,10 @@ CppPrintUnit::CppPrintUnit(const std::string& text) :
     PrintUnit(text)
 {}
 
+CppPrintUnit::~CppPrintUnit()
+{}
+
 std::string CppPrintUnit::compile(unsigned int level) const
 {
-    return generateShift(level) + "printf( \"" + m_text +
-        "\" );\n";
+    return generateShift(level) + "printf( \"" + m_text + "\" );\n";
 }

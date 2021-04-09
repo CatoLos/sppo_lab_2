@@ -17,6 +17,7 @@ public:
 
     explicit CppMethodUnit(const std::string& name,
         const std::string& returnType, Flags flags);
+    ~CppMethodUnit();
 
     std::string compile(unsigned int level = 0) const;
 };
@@ -26,6 +27,7 @@ class CppPrintUnit : public PrintUnit
 public:
 
     explicit CppPrintUnit(const std::string& text);
+    ~CppPrintUnit();
 
     std::string compile(unsigned int level = 0) const;
 };

@@ -1,9 +1,9 @@
+#include <stdexcept>
 #include "Units.h"
-
 
 void Unit::add(const std::shared_ptr< Unit >&, Flags)
 {
-    //throw runtime_error("Not supported");
+    throw std::runtime_error("Not supported");
 }
 
 std::string Unit::generateShift(unsigned int level) const

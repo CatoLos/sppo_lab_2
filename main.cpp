@@ -1,33 +1,31 @@
 #include <iostream>
-#include "CppUnits.h"
+#include "CppUnitGenerator.h"
 
-using namespace std;
-
-std::string generateProgram()
+std::string generateProgram(const std::shared_ptr<IUnitGenerator>& generator)
 {
-    CppClassUnit myClass("MyClass");
+    auto classUnit = generator->getClassUnit("MyClass", ClassUnit::PUBLIC);
 
-    myClass.add(
-        std::make_shared< CppMethodUnit >("testFunc1", "void", 0),
-        ClassUnit::PUBLIC);
+    auto functionUnit1 = generator->getMethodUnit("testFunc1", "void");
+    classUnit->add(functionUnit1, ClassUnit::PUBLIC);
 
-    myClass.add(
-        std::make_shared< CppMethodUnit >("testFunc2", "void", MethodUnit::STATIC),
-        ClassUnit::PRIVATE);
+    auto functionUnit2 = generator->getMethodUnit("testFunc2", "void", MethodUnit::STATIC);
+    classUnit->add(functionUnit2, ClassUnit::PRIVATE);
 
-    myClass.add(
-        std::make_shared< CppMethodUnit >("testFunc3", "void", MethodUnit::VIRTUAL | MethodUnit::CONST),
-        ClassUnit::PUBLIC);
+    auto functionUnit3 = generator->getMethodUnit("testFunc3", "void", MethodUnit::VIRTUAL | MethodUnit::CONST);
+    classUnit->add(functionUnit3, ClassUnit::PUBLIC);
 
-    auto method = std::make_shared< CppMethodUnit >("testFunc4", "void", MethodUnit::STATIC);
-    method->add(std::make_shared< CppPrintUnit >(R"(Hello, world!\n)"));
+    auto functionUnit4 = generator->getMethodUnit("testFunc4", "void", MethodUnit::STATIC);
+    auto printUnit = generator->getPrintUnit(R"(Hello, world!\n)");
 
-    myClass.add(method, ClassUnit::PROTECTED);
-    return myClass.compile();
+    functionUnit4->add(printUnit);
+
+    classUnit->add(functionUnit4, ClassUnit::PROTECTED);
+
+    return classUnit->compile();
 }
 
 int main()
 {
-    std::cout << generateProgram() << endl;
+    std::cout << generateProgram(std::make_shared<CppUnitGenerator>());
     return 0;
 }
