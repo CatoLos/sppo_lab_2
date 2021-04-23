@@ -20,12 +20,12 @@ std::shared_ptr<IUnitGenerator> CodeCompiler::getUnitGenerator()
 
 std::string CodeCompiler::compile()
 {
-    auto classUnit = m_ugen->getClassUnit("MyClass", ClassUnit::PUBLIC);
+    auto classUnit = m_ugen->getClassUnit("MyClass", ClassUnit::PUBLIC | ClassUnit::FINAL);
 
     auto functionUnit1 = m_ugen->getMethodUnit("testFunc1", "void");
     classUnit->add(functionUnit1, ClassUnit::PUBLIC);
 
-    auto functionUnit2 = m_ugen->getMethodUnit("testFunc2", "void", MethodUnit::STATIC);
+    auto functionUnit2 = m_ugen->getMethodUnit("testFunc2", "void", MethodUnit::INTERNAL);
     classUnit->add(functionUnit2, ClassUnit::PRIVATE);
 
     auto functionUnit3 = m_ugen->getMethodUnit("testFunc3", "void", MethodUnit::VIRTUAL | MethodUnit::CONST);

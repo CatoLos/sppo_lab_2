@@ -58,9 +58,12 @@ class ClassUnit : public Unit
 public:
     enum AccessModifier
     {
-        PUBLIC,
-        PROTECTED,
-        PRIVATE,
+        PUBLIC = 0,
+        PROTECTED = 1,
+        PRIVATE = 1 << 1,
+        ABSTRACT = 1 << 2,
+        FINAL = 1 << 3,
+        INTERNAL = 1 << 4,
         NONE
     };
 
@@ -86,6 +89,9 @@ public:
         STATIC = 1,
         CONST = 1 << 1,
         VIRTUAL = 1 << 2,
+        ABSTRACT = 1 << 3,
+        FINAL = 1 << 4,
+        INTERNAL = 1 << 5,
         NONE = 0 //нет модификаторов
     };
 

@@ -1,7 +1,7 @@
 #include "CppUnits.h"
 
 CppClassUnit::CppClassUnit(const std::string& name, Flags modifier) :
-    ClassUnit(name, ClassUnit::NONE)
+    ClassUnit(name, modifier)
 {}
 
 CppClassUnit::~CppClassUnit()
@@ -9,7 +9,14 @@ CppClassUnit::~CppClassUnit()
 
 std::string CppClassUnit::compile(unsigned int level) const
 {
-    std::string result = generateShift(level) + "class " + m_name + " {\n";
+    std::string result = generateShift(level) + "class " + m_name + " ";
+
+    if(m_modifier & FINAL)
+    {
+        result += "final ";
+    }
+
+    result += "{\n";
 
     for (size_t i = 0; i < ACCESS_MODIFIERS.size(); ++i)
     {
@@ -53,6 +60,11 @@ std::string CppMethodUnit::compile(unsigned int level) const
 
     result += m_returnType + " ";
     result += m_name + "()";
+
+    if(m_flags & FINAL)
+    {
+        result += "final ";
+    }
 
     if (m_flags & CONST)
     {

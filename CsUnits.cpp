@@ -11,20 +11,30 @@ std::string CsClassUnit::compile(unsigned int level) const
 {
     std::string result = generateShift(level);
 
-    switch (m_modifier)
+    if(m_modifier & ClassUnit::PRIVATE)
     {
-    case ClassUnit::PUBLIC:
-        result += "public ";
-        break;
-    case ClassUnit::PRIVATE:
         result += "private ";
-        break;
-    case ClassUnit::PROTECTED:
-        result += "pprotected ";
-        break;
+
+        if(m_modifier & ClassUnit::PROTECTED)
+            result += "protected ";
+    }
+    else if(m_modifier & ClassUnit::PROTECTED)
+    {
+        result += "protected ";
+        if(m_modifier & ClassUnit::INTERNAL)
+            result += "internal ";
+    }
+    else
+    {
+        result += "public ";
     }
 
-    result += "class " + m_name + " {\n";
+    result += "class " + m_name + " ";
+
+    if(m_modifier & FINAL)
+        result += "sealed ";
+
+    result += "{\n";
 
     for (size_t i = 0; i < ACCESS_MODIFIERS.size(); ++i)
     {
@@ -61,6 +71,9 @@ std::string CsMethodUnit::compile(unsigned int level) const
         result += "static ";
     else if (m_flags & VIRTUAL)
         result += "virtual ";
+    else if (m_flags & INTERNAL)
+        result += "internal ";
+
 
     result += m_returnType + " ";
     result += m_name + "()";

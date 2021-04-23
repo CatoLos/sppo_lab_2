@@ -11,20 +11,21 @@ std::string JavaClassUnit::compile(unsigned int level) const
 {
     std::string result = generateShift(level);
 
-    switch (m_modifier)
-    {
-    case ClassUnit::PUBLIC:
-        result += "public ";
-        break;
-    case ClassUnit::PRIVATE:
+    if (m_modifier & ClassUnit::PRIVATE)
         result += "private ";
-        break;
-    case ClassUnit::PROTECTED:
+    else if (m_modifier & ClassUnit::PROTECTED)
         result += "protected ";
-        break;
-    }
+    else
+        result += "public ";
 
-    result += "class " + m_name + " {\n";
+    result += "class " + m_name + " ";
+
+    if(m_modifier & ClassUnit::FINAL)
+        result += "final ";
+    else if(m_modifier & ClassUnit::ABSTRACT)
+        result += "abstract ";
+
+    result += "{\n";
 
     for (size_t i = 0; i < ACCESS_MODIFIERS.size(); ++i)
     {
@@ -57,10 +58,13 @@ std::string JavaMethodUnit::compile(unsigned int level) const
 {
     std::string result = generateShift(level);
 
-    if (m_flags & STATIC)
-    {
+    if (m_flags & JavaMethodUnit::STATIC)
         result += "static ";
-    }
+
+    if (m_flags & JavaMethodUnit::FINAL)
+        result += "final ";
+    else if (m_flags & JavaMethodUnit::ABSTRACT)
+        result += "abstract ";
 
     result += m_returnType + " ";
     result += m_name + "()";

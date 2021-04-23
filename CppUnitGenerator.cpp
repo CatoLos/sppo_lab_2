@@ -7,7 +7,7 @@ CppUnitGenerator::~CppUnitGenerator() {}
 std::shared_ptr<ClassUnit> CppUnitGenerator::getClassUnit(std::string name, uint32_t modifier) const
 {
     //return nullptr;
-    return std::make_shared< CppClassUnit >(name, ClassUnit::NONE);
+    return std::make_shared< CppClassUnit >(name, modifier);
 }
 
 std::shared_ptr<MethodUnit> CppUnitGenerator::getMethodUnit(std::string name, std::string returnType,
