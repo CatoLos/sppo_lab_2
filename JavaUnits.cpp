@@ -60,8 +60,7 @@ std::string JavaMethodUnit::compile(unsigned int level) const
 
     if (m_flags & JavaMethodUnit::STATIC)
         result += "static ";
-
-    if (m_flags & JavaMethodUnit::FINAL)
+    else if (m_flags & JavaMethodUnit::FINAL)
         result += "final ";
     else if (m_flags & JavaMethodUnit::ABSTRACT)
         result += "abstract ";
